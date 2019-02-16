@@ -19,5 +19,6 @@ import mywaysubway.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', mywaysubway.views.index, name="index")
+    path('', mywaysubway.views.home, name="home"),
+    path('results', mywaysubway.views.results, name="results"),
 ]

@@ -94,6 +94,9 @@ function vegetableRandom() {
     var vegeCbox = document.getElementsByName('vagetable');
     if (selectVegeValue == "select") {
         vegeDiv.style.display = "inline-block";
+        for (i=0; i<vegeCbox.length; i++) {
+            vegeCbox[i].checked = true;
+        }
     } else if (selectVegeValue == "random") {
         vegeDiv.style.display = "none";
         for (i=0; i<vegeCbox.length; i++) {
