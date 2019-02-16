@@ -1,9 +1,0 @@
-
-{% load static %}
-<h1>마이 웨이 서브 웨이</h1>
-{% for menu in menus %}
-    {{menu.title}} <br>
-    {{menu.introduction}} <br>
-    <img src="{{ menu.image.url }}"> <br>
-    
-{% endfor %}
