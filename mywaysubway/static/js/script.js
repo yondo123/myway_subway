@@ -190,6 +190,210 @@ function setmenuSelect() {
             drinkRadio[i].checked = false;
         }
     } else if (setRadioValue == "set") {
-        setmenuDiv.style.display = "block";     
+        setmenuDiv.style.display = "block";
+        cookieRadio[6].checked = true;
+        drinkRadio[5].checked = true;    
     }
+}
+
+var sandwichDic = { 
+    'eggmayo':0, 'italianbmt':0, 'blt':0, 'meatball':0, 'ham':0, 'tuna':0,
+    'rotisseriechicken':0, 'roastchicken':0, 'roastbeef':0, 'subwayclub':0, 'turkey':0, 'veggie':0,
+    'pulledpork':0, 'steakncheese':0, 'turkeybaconavocado':0, 'chickenbaconlanch':0, 'subwaymelt':0, 'turkeybacon':0, 'spicyitalian':0, 'chickenteriyaki':0
+}
+
+var sandwichArr = [
+    'eggmayo', 'italianbmt', 'blt', 'meatball', 'ham', 'tuna',
+    'rotisseriechicken', 'roastchicken', 'roastbeef', 'subwayclub', 'turkey', 'veggie',
+    'pulledpork', 'steakncheese', 'turkeybaconavocado', 'chickenbaconlanch', 'subwaymelt', 'turkeybacon', 'spicyitalian', 'chickenteriyaki'
+]
+
+var toppingDic = {
+    'doubleup':0, 'eggmayotoppping':0, 'omlet':0, 'avocado':0, 'bacon':0, 'pepperoni':0, 'doublecheese':0
+}
+
+//오늘의 샌드위치 결정
+function sandwichRandomSelect() {
+    // 결정된 사항들이 담길 배열
+    var selectedArr = []
+
+    // 샌드위치 종류 결정
+    var select = document.getElementById('swcategory');
+    var cateval = select.options[select.selectedIndex].value;
+
+    if (cateval == 'random') {
+        var randSandwichInt = Math.floor(Math.random()*(sandwichArr.length-1+1)) + 1;
+        var sandwichName = sandwichArr[randSandwichInt];
+        var sandwichPrice = sandwichDic[sandwichName];
+        selectedArr.push([sandwichName, sandwichPrice]);
+    } else if (cateval == 'category') {
+        alert('샌드위치 종류를 선택해주세요!')
+        return false;
+    } else if (cateval == 'classic') {
+        var classicRadio = document.getElementsByName('classic');
+        var checkedSandwichName;
+        for (i=0; i<classicRadio.length; i++) {
+            if (classicRadio[i].checked == true) {
+                checkedSandwichName = classicRadio[i].value;
+                selectedArr.push([checkedSandwichName, sandwichDic[checkedSandwichName]]);
+            }
+        }
+    } else if (cateval == 'fresh') {
+        var freshRadio = document.getElementsByName('fresh');
+        var checkedSandwichName;
+        for (i=0; i<freshRadio.length; i++) {
+            if (freshRadio[i].checked == true) {
+                checkedSandwichName = freshRadio[i].value;
+                selectedArr.push([checkedSandwichName, sandwichDic[checkedSandwichName]]);
+            }
+        }
+    } else if (cateval == 'premium') {
+        var premiumRadio = document.getElementsByName('premium');
+        var checkedSandwichName;
+        for (i=0; i<premiumRadio.length; i++) {
+            if (premiumRadio[i].checked == true) {
+                checkedSandwichName = premiumRadio[i].value;
+                selectedArr.push([checkedSandwichName, sandwichDic[checkedSandwichName]]);
+            }
+        }
+    }
+
+    // 빵 결정
+    var breadRadio = document.getElementsByName('bread');
+    var checkedBreadName;
+    for (i=0; i<breadRadio.length; i++) {
+        if (breadRadio[i].checked == true) {
+            if (breadRadio[i].value == 'random') {
+                var randBreadInt = Math.floor(Math.random()*(6-1+1));
+                checkedBreadName = breadRadio[randBreadInt].value;
+                selectedArr.push([checkedBreadName]);
+            } else {
+                checkedBreadName = breadRadio[i].value;
+                selectedArr.push([checkedBreadName]);
+            }
+        }
+    }
+
+    // 치즈 결정
+    var cheeseRadio = document.getElementsByName('cheese');
+    var checkedCheeseName;
+    for (i=0; i<cheeseRadio.length; i++) {
+        if (cheeseRadio[i].checked == true) {
+            if (cheeseRadio[i].value == 'random') {
+                var randCheeseInt = Math.floor(Math.random()*(2-1+1));
+                checkedCheeseName = cheeseRadio[randCheeseInt].value;
+                selectedArr.push([checkedCheeseName]);
+            } else {
+                checkedCheeseName = cheeseRadio[i].value;
+                selectedArr.push([checkedCheeseName]);
+            }
+        }
+    }    
+
+    // 야채 결정
+    var selectVegeRadio = document.getElementsByName('selectvege');
+    var selectedVegeArr = [];
+    
+    var selectVegeCheckbox = document.getElementsByName('vagetable');
+    if (selectVegeRadio[0].checked == true) {
+        for (i=0; i<selectVegeCheckbox.length; i++) {
+            if (selectVegeCheckbox[i].checked == true) {
+                selectedVegeArr.push(selectVegeCheckbox[i].value);
+            }
+        }
+        selectedArr.push(selectedVegeArr)
+    } else if (selectVegeRadio[1].checked == true) {
+        var randVegeIntAmount = Math.floor(Math.random()*(8-1+1)+1); //야채 갯수
+        var randVegeArr = []; //야채 인덱스 번호가 들어가는 리스트
+        for (i=0; i<randVegeIntAmount; i++) {
+            randVegeArr[i] = Math.floor(Math.random()*(8-1+1));
+            for (j = 0; j<i; j++) {
+                if (randVegeArr[i] == randVegeArr[j]) {
+                    i--;
+                    break;
+                }
+            }
+        }
+        for (i=0; i<randVegeArr.length; i++) {
+            selectedVegeArr.push(selectVegeCheckbox[randVegeArr[i]].value);
+        }
+        selectedArr.push(selectedVegeArr);
+    }
+
+    // 토핑 추가
+    selectedArr.push([])
+    var selectedArr4 = selectedArr[4]
+    var addtopping = document.getElementsByName('addtopping');
+    if (addtopping[1].checked == true) {
+        var toppingCheckbox = document.getElementsByName('topping');
+        var checkedToppingName;
+        for (i=0; i<toppingCheckbox.length; i++) {
+            if (toppingCheckbox[i].checked == true) {
+                checkedToppingName = toppingCheckbox[i].value;
+                var newDic = {}
+                newDic[checkedToppingName] = toppingDic[checkedToppingName];
+                selectedArr4.push(newDic);
+            }
+        }
+    }
+
+    // 소스 고르기
+    var sauceRadio = document.getElementsByName('selectsauce');
+    var sauceCheckbox = document.getElementsByName('sauce');
+    var selectedSauceArr = [];
+    if (sauceRadio[0].checked == true) {
+        for (i=0; i<sauceCheckbox.length; i++) {
+            if (sauceCheckbox[i].checked) {
+                selectedSauceArr.push(sauceCheckbox[i].value);
+            }
+        }
+        selectedArr.push(selectedSauceArr);
+    } else {
+        var randSauceIntAmount = Math.floor(Math.random()*(3-1+1)+1);
+        var randSauceArr = [];
+        for (i=0; i<randSauceIntAmount; i++) {
+            randSauceArr[i] = Math.floor(Math.random()*(16-1+1));
+            for (j = 0; j<i; j++) {
+                if (randSauceArr[i] == randSauceArr[j]) {
+                    i--;
+                    break;
+                }
+            }
+        }
+        for (i=0; i<randSauceArr.length; i++) {
+            selectedSauceArr.push(sauceCheckbox[randSauceArr[i]].value);
+        }
+        selectedArr.push(selectedSauceArr);
+    }
+
+    var setRadio = document.getElementsByName('setyn');
+    if (setRadio[1].checked == true) {
+        //쿠키 결정
+        var cookieRadio = document.getElementsByName('cookie');
+        for (i=0; i<cookieRadio.length; i++) {
+            if (cookieRadio[i].checked == true) {
+                if (cookieRadio[i].value == 'random') {
+                    var randCookieInt = Math.floor(Math.random()*(6-1+1));
+                    selectedArr.push([cookieRadio[randCookieInt].value])
+                } else {
+                    selectedArr.push([cookieRadio[i].value])
+                }
+            }
+        }
+
+        //음료 결정
+        var drinkRadio = document.getElementsByName('drink');
+        for (i=0; i<drinkRadio.length; i++) {
+            if (drinkRadio[i].checked == true) {
+                if (drinkRadio[i].value == 'random') {
+                    var randDrinkInt = Math.floor(Math.random()*(5-1+1));
+                    selectedArr.push([drinkRadio[randDrinkInt].value])
+                } else {
+                    selectedArr.push([drinkRadio[i].value])
+                }
+            }
+        }
+    }
+    // 최종 결과 알림
+    alert(selectedArr);
 }
